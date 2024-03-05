@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText matNummer;
     private Button button1;
     private String result;
+    private TextView response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         });
         matNummer = findViewById(R.id.input1);
         button1 = findViewById(R.id.button1);
+        response = findViewById(R.id.textView5); // TextView response initialisieren
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     result = reader.readLine();
 
-                    TextView response = findViewById(R.id.textView5);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -82,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     socket.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+                }  catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
-    }).start();
-}
+        }).start();
+    }
 }
