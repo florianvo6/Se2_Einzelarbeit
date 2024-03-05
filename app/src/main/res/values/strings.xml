@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Se2_Einzelarbeit</string>
+    <string name="networktest">NetworkTest</string>
 </resources>
