@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private String result;
     private TextView response;
 
+    private Button button2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +47,19 @@ public class MainActivity extends AppCompatActivity {
         matNummer = findViewById(R.id.input1);
         button1 = findViewById(R.id.button1);
         response = findViewById(R.id.textView5); // TextView response initialisieren
+        button2 = findViewById(R.id.button2);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMatNummerToServer();
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateGgt();
             }
         });
 
@@ -88,5 +98,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    private void calculateGgt(){
+        String matrikelNummer = matNummer.getText().toString();
+
+        //String matikelNummer in int umwandeln
+        int input = Integer.parseInt(matrikelNummer);
+
+
+
+        }
     }
 }
