@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView response;
 
     private Button button2;
+    private List<Integer[]> resultGGT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,17 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calculateGgt();
+                resultGGT = calculateGgt();
+                StringBuilder sb = new StringBuilder();
+                if (resultGGT.isEmpty()) {
+                    sb.append("No common divisors greater than 1 found");
+                } else {
+                    sb.append("Indices of pairs with ggt: ");
+                    for (Integer[] pair : resultGGT) {
+                        sb.append(String.format("(%d, %d) ", pair[0], pair[1]));
+                    }
+                }
+                response.setText(sb.toString());
             }
         });
 
@@ -100,14 +113,29 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void calculateGgt(){
+    private List<Integer[]> calculateGgt(){
         String matrikelNummer = matNummer.getText().toString();
 
-        //String matikelNummer in int umwandeln
         int input = Integer.parseInt(matrikelNummer);
+        List<Integer[]> result = new ArrayList<>();
 
-
-
+        for (int i = 0; i < matrikelNummer.length(); i++) {
+            for (int j = i+1; j < matrikelNummer.length(); j++){
+                int a = Integer.parseInt(matrikelNummer.substring(i, i+1));
+                int b = Integer.parseInt(matrikelNummer.substring(j, j+1));
+                int gcd = gcd(a, b);
+                if (gcd > 1) {
+                    result.add(new Integer[]{i, j});
+                }
+            }
         }
+        return result;
+    }
+
+    private static int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
     }
 }
