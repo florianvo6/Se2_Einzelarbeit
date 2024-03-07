@@ -47,40 +47,48 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //declare view variables
         matNummer = findViewById(R.id.input1);
         button1 = findViewById(R.id.button1);
-        response = findViewById(R.id.textView5); // TextView response initialisieren
+        response = findViewById(R.id.textView5);
         button2 = findViewById(R.id.button2);
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMatNummerToServer();
+                //calling method sendMatNumberToServer()
+                sendMatNumberToServer();
             }
         });
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //save the result list with the integer arrays in resultGGT
                 resultGGT = calculateGgt();
-                StringBuilder sb = new StringBuilder();
+                //build the resultString output
+                StringBuilder output = new StringBuilder();
                 if (resultGGT.isEmpty()) {
-                    sb.append("No common divisors greater than 1 found");
+                    output.append("No common divisors of pairs greater than 1 found");
                 } else {
-                    sb.append("Indices of pairs with ggt: ");
+                    output.append("Indices of pairs with ggt: ");
+                    //formating the String-Output by iterating through the List and using String.format
                     for (Integer[] pair : resultGGT) {
-                        sb.append(String.format("(%d, %d) ", pair[0], pair[1]));
+                        output.append(String.format("(%d, %d) ", pair[0], pair[1]));
                     }
                 }
-                response.setText(sb.toString());
+                response.setText(output.toString());
             }
         });
 
     }
 
-    private void sendMatNummerToServer() {
+    private void sendMatNumberToServer() {
+        //get the String value of matNummer
         String matrikelNummer = matNummer.getText().toString();
 
+        //check if input is an number of 8 digits
         if (matrikelNummer.length() != 8 || !TextUtils.isDigitsOnly(matrikelNummer)) {
             Toast.makeText(MainActivity.this, "Die Matrikelnummer muss eine 8-stellige Zahl sein", Toast.LENGTH_SHORT).show();
             return;
